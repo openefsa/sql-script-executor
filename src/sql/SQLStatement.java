@@ -15,7 +15,6 @@ public class SQLStatement {
 	}
 	
 	public void exec() throws SQLException {
-		
 		try(Statement stmt = con.createStatement();) {
 			stmt.execute(query);
 			stmt.close();
