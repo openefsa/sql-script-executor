@@ -15,7 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class SQLExecutor implements AutoCloseable {
+	
+	private static final Logger LOGGER = LogManager.getLogger(SQLExecutor.class);
 	
 	private Connection con;
 	private boolean verbose;
@@ -39,6 +44,7 @@ public class SQLExecutor implements AutoCloseable {
 	public void exec(File file) throws IOException, SQLException {
 		Path path = Paths.get(file.getAbsolutePath());
 		String queries = new String(Files.readAllBytes(path));
+		LOGGER.info("Queries ", queries);
 		exec(queries);
 	}
 	
@@ -78,7 +84,7 @@ public class SQLExecutor implements AutoCloseable {
 		for (SQLStatement stmt : statements) {
 			
 			if (verbose)
-				System.out.println(stmt);
+				LOGGER.info("SQL statement : " + stmt);
 			
 			stmt.exec();
 		}
